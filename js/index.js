@@ -1,3 +1,9 @@
+function pronounceWord(word) {
+    const utterance = new SpeechSynthesisUtterance(word);
+    utterance.lang = 'en-EN'; // Japanese
+    window.speechSynthesis.speak(utterance);
+}
+
 const showLoader = () => {
     document.getElementById('loader').classList.remove('hidden');
     document.getElementById('loaderhidden').classList.add('hidden');
@@ -21,7 +27,11 @@ function getStarted() {
 
     if (text.length > 0) {
         if (numPass === 123456) {
-            alert('Congratulations! You are logged in');
+            Swal.fire({
+                title: "অভিনন্দন ",
+                text: "চলুন আজ নতুন কিছু শেখা যাক",
+                icon: "success"
+            });
             document.getElementById('showNavbar').style.display = 'block';
             document.getElementById('gayebulHawa').style.display = 'block';
             document.getElementById('bannerGayebulHawa').style.display = 'none';
@@ -60,7 +70,7 @@ const loadLessonId = (id) => {
         .then(data => {
             removeActiveClass();
             const clickedBtn = document.getElementById(`btn-${id}`);
-            console.log(clickedBtn);
+            // console.log(clickedBtn);
             clickedBtn.classList.add('active');
 
             loadVocabulary(data.data);
@@ -154,7 +164,7 @@ const loadVocabulary = (words) => {
                 <p class="siliguri font-semibold text-2xl">"${word.meaning === null || word.meaning === undefined ? "No Word found" : word.meaning} /${word.pronunciation === null || word.pronunciation === undefined ? "No Word found" : word.pronunciation}"</p>
                 <div class="flex justify-between items-center mt-4">
                     <p onclick="loadVocabularyDetails(${word.id})" id="details-modal-btn" class="btn"><i class="fa-solid fa-circle-info text-2xl"></i></p>
-                    <p id="sound" class="btn"><i class="fa-solid fa-volume-high text-2xl"></i></p>
+                    <p onclick="pronounceWord('${word.word}')" id="sound" class="btn"><i class="fa-solid fa-volume-high text-2xl"></i></p>
                 </div>
             </div>
         </div>
